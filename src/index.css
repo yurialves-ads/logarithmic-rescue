@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MISSÃO LOGARÍTMICA - 16-bit retro design system */
+
+@layer base {
+  :root {
+    /* Retro lab palette */
+    --background: 220 25% 8%;
+    --foreground: 30 30% 92%;
+
+    --card: 220 30% 12%;
+    --card-foreground: 30 30% 92%;
+
+    --popover: 220 35% 10%;
+    --popover-foreground: 30 30% 92%;
+
+    --primary: 18 90% 55%;          /* lava orange */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 25% 18%;
+    --secondary-foreground: 30 30% 92%;
+
+    --muted: 220 20% 22%;
+    --muted-foreground: 30 15% 70%;
+
+    --accent: 145 75% 50%;          /* correct green neon */
+    --accent-foreground: 220 30% 8%;
+
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 25% 22%;
+    --input: 220 25% 18%;
+    --ring: 18 90% 55%;
+
+    /* Game-specific tokens */
+    --lava-1: 14 95% 55%;
+    --lava-2: 28 100% 60%;
+    --lava-3: 45 100% 65%;
+    --lava-glow: 18 100% 50%;
+
+    --brick: 14 38% 22%;
+    --brick-line: 14 30% 12%;
+    --floor: 210 25% 55%;
+    --floor-line: 210 30% 42%;
+    --floor-hl: 210 35% 70%;
+
+    --desk: 22 40% 28%;
+    --desk-dark: 22 45% 18%;
+    --monitor: 215 25% 15%;
+    --monitor-screen: 195 90% 45%;
+    --crt-text: 130 90% 55%;
+
+    --player: 215 70% 50%;
+    --player-skin: 28 60% 70%;
+    --player-hair: 25 60% 25%;
+
+    --professor: 0 0% 95%;
+    --professor-skin: 28 55% 72%;
+    --professor-hair: 25 55% 28%;
+    --cage: 30 5% 35%;
+    --chain: 30 5% 50%;
+
+    --hud-bg: 220 50% 6%;
+    --hud-border: 18 90% 55%;
+
+    --radius: 0;
+
+    --font-pixel: 'Press Start 2P', system-ui, monospace;
+    --font-pixel-body: 'VT323', monospace;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-pixel-body);
+    overflow: hidden;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .font-pixel {
+    font-family: var(--font-pixel);
+    letter-spacing: 0.04em;
+  }
+  .font-pixel-body {
+    font-family: var(--font-pixel-body);
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer components {
+  /* Pixel-perfect frame: chunky double border */
+  .pixel-frame {
+    background: hsl(var(--popover));
+    border: 4px solid hsl(var(--foreground));
+    box-shadow:
+      0 0 0 4px hsl(var(--background)),
+      0 0 0 8px hsl(var(--foreground)),
+      0 0 24px hsl(var(--lava-glow) / 0.25);
+  }
+
+  .pixel-btn {
+    @apply font-pixel text-[10px] sm:text-xs px-3 py-2 uppercase;
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border: 3px solid hsl(var(--foreground));
+    box-shadow: inset -3px -3px 0 hsl(var(--background) / 0.5),
+                inset 3px 3px 0 hsl(var(--foreground) / 0.15);
+    transition: transform 80ms steps(2), background 80ms;
+  }
+  .pixel-btn:hover { background: hsl(var(--secondary)); }
+  .pixel-btn:active { transform: translate(2px, 2px); }
+
+  .pixel-btn-primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(0 0% 100%);
+  }
+  .pixel-btn-primary:hover { background: hsl(var(--lava-2)); }
+
+  .pixel-btn-correct {
+    background: hsl(var(--accent) / 0.15);
+    border-color: hsl(var(--accent));
+    color: hsl(var(--accent));
+    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.4),
+                0 0 16px hsl(var(--accent) / 0.6),
+                inset 0 0 12px hsl(var(--accent) / 0.3);
+  }
+  .pixel-btn-wrong {
+    background: hsl(var(--destructive) / 0.2);
+    border-color: hsl(var(--destructive));
+    color: hsl(var(--destructive));
+    box-shadow: 0 0 0 2px hsl(var(--destructive) / 0.4),
+                0 0 16px hsl(var(--destructive) / 0.6);
+  }
+
+  /* Brick wall pattern - layered for offset look */
+  .bg-brick {
+    background-color: hsl(var(--brick));
+    background-image:
+      linear-gradient(0deg, hsl(var(--brick-line)) 2px, transparent 2px),
+      linear-gradient(90deg, hsl(var(--brick-line)) 2px, transparent 2px),
+      linear-gradient(90deg, hsl(var(--brick-line)) 2px, transparent 2px);
+    background-size: 32px 16px, 32px 16px, 32px 16px;
+    background-position: 0 0, 0 0, 16px 8px;
+  }
+
+  /* Tiled floor — lighter blue with grout lines + highlight specks */
+  .bg-floor {
+    background-color: hsl(var(--floor));
+    background-image:
+      linear-gradient(0deg, hsl(var(--floor-line)) 2px, transparent 2px),
+      linear-gradient(90deg, hsl(var(--floor-line)) 2px, transparent 2px),
+      radial-gradient(circle at 25% 25%, hsl(var(--floor-hl) / 0.5) 1px, transparent 2px),
+      radial-gradient(circle at 75% 75%, hsl(var(--floor-hl) / 0.3) 1px, transparent 2px);
+    background-size: 48px 48px, 48px 48px, 48px 48px, 48px 48px;
+  }
+
+  /* Lava */
+  .bg-lava {
+    background:
+      radial-gradient(circle at 20% 30%, hsl(var(--lava-3)) 0 6%, transparent 10%),
+      radial-gradient(circle at 70% 60%, hsl(var(--lava-3)) 0 5%, transparent 9%),
+      radial-gradient(circle at 40% 80%, hsl(var(--lava-2)) 0 8%, transparent 12%),
+      linear-gradient(180deg, hsl(var(--lava-1)), hsl(14 100% 40%));
+    background-size: 120px 80px, 160px 100px, 200px 140px, 100% 100%;
+    animation: lavaFlow 6s steps(12) infinite;
+    box-shadow: 0 0 60px hsl(var(--lava-glow) / 0.7),
+                inset 0 8px 24px hsl(45 100% 70% / 0.3);
+  }
+
+  .lava-glow {
+    box-shadow: 0 -8px 40px hsl(var(--lava-glow) / 0.6),
+                0 0 80px hsl(var(--lava-glow) / 0.4);
+  }
+}
+
+@layer utilities {
+  .text-shadow-pixel {
+    text-shadow: 2px 2px 0 hsl(var(--background)),
+                 4px 4px 0 hsl(var(--background) / 0.5);
+  }
+  .text-glow-lava {
+    text-shadow: 0 0 8px hsl(var(--lava-glow)),
+                 2px 2px 0 hsl(220 60% 5%);
+  }
+}
+
+@keyframes lavaFlow {
+  0%   { background-position: 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 120px 40px, -160px 60px, 200px -80px, 0 0; }
+}
+
+@keyframes lavaPulse {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50%      { filter: brightness(1.15) saturate(1.2); }
+}
+.animate-lava-pulse { animation: lavaPulse 2.2s ease-in-out infinite; }
+
+@keyframes cageSway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+.animate-cage-sway { animation: cageSway 3.2s ease-in-out infinite; transform-origin: top center; }
+
+@keyframes cageDrop {
+  0%   { transform: translateY(0) rotate(0); }
+  20%  { transform: translateY(0) rotate(15deg); }
+  100% { transform: translateY(220px) rotate(45deg); opacity: 0; }
+}
+.animate-cage-drop { animation: cageDrop 1.4s cubic-bezier(.5,.1,.9,.5) forwards; transform-origin: top center; }
+
+@keyframes screenFlicker {
+  0%, 95%, 100% { opacity: 1; }
+  97% { opacity: 0.6; }
+}
+.animate-flicker { animation: screenFlicker 3s steps(2) infinite; }
+
+@keyframes playerStep {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.animate-step { animation: playerStep 0.4s steps(2) infinite; }
+
+@keyframes chainShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
+.animate-chain { animation: chainShake 0.6s steps(2) infinite; }
+
+@keyframes flashGreen {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: hsl(var(--accent) / 0.3); }
+}
+.flash-green { animation: flashGreen 0.5s ease-out 2; }
+
+@keyframes flashRed {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: hsl(var(--destructive) / 0.3); }
+}
+.flash-red { animation: flashRed 0.4s ease-out 3; }
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-4px, 2px); }
+  40% { transform: translate(4px, -2px); }
+  60% { transform: translate(-3px, -1px); }
+  80% { transform: translate(3px, 1px); }
+}
+.animate-shake { animation: shake 0.5s steps(4); }
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
