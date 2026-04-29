@@ -15,12 +15,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting */
-    "strict": false,
+    /* Qualidade de código */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Ajustes úteis */
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitAny": false,
-    "noFallthroughCasesInSwitch": false,
+    "noFallthroughCasesInSwitch": true,
 
     "paths": {
       "@/*": ["./src/*"]
